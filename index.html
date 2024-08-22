@@ -1,0 +1,311 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Open+Sans&display=swap"
+        rel="stylesheet">
+    <!-- Import Bootstrap Icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- ALL MIN CSS -->
+    <link rel="stylesheet" href="assets/css/all.min.css">
+    <!-- File Normalization -->
+    <link rel="stylesheet" href="assets/css/normalize.css">
+    <!-- Import CSS Files -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: url('https://i.postimg.cc/bYQptgPz/background.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            position: relative;
+            width: 400px;
+            /* height: 555px; */
+            height: 100px;
+            background: linear-gradient(250deg, #fdd70069, #154f95be);
+            backdrop-filter: blur(30px);
+            border: 2px solid lightcyan;
+            border-radius: 16px;
+            padding: 20px;
+            color: #fff;
+            transition: height 0.6s ease;
+        }
+
+        .search-box {
+            position: relative;
+            width: 100%;
+            height: 55px;
+            /* background: #ffd90080; */
+            /*Test  => delete*/
+            display: flex;
+            align-items: center;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 10px;
+            font-size: 20px;
+            color: #fff;
+        }
+
+        .search-box input {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            outline: none;
+            font-size: 22px;
+            color: #fff;
+            font-weight: 500;
+            text-transform: uppercase;
+            padding: 0 40px 0 42px;
+        }
+
+        .search-box input::placeholder {
+            color: #fff;
+            text-transform: capitalize;
+        }
+
+        .search-box button {
+            position: absolute;
+            right: 0;
+            width: 40px;
+            height: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 20px;
+            color: #fff;
+            padding: 0 40px 0 5px;
+            cursor: pointer;
+        }
+
+        .weather-box {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        /* بعد اول جزء جافا , بعد كده اضافة not-found*/
+        .weather-box,
+        .weather-details,
+        .not-found {
+            /* بعد transition */
+            overflow: hidden;
+            visibility: hidden;
+        }
+
+        .weather-box.active,
+        .weather-details.active,
+        .not-found.active {
+            visibility: visible;
+        }
+
+        /* بعد transation علي container */
+        .weather-box .box,
+        .not-found .box {
+            transform: translateY(-100%);
+        }
+
+        .weather-box.active .box,
+        .not-found.active .box {
+            transform: translateY(0%);
+            transition: transform 1s ease;
+            transition-delay: 0.6s;
+        }
+
+        .weather-box img {
+            width: 60%;
+        }
+
+        .weather-box .temp {
+            position: relative;
+            font-size: 64px;
+            line-height: 1;
+            font-weight: 700;
+            margin: 20px 0 6px -30px;
+        }
+
+        .weather-box .temp span {
+            position: absolute;
+            font-size: 24px;
+            margin-left: 4px;
+        }
+
+        .weather-box .description {
+            font-size: 22px;
+            font-weight: 500;
+            text-transform: capitalize;
+        }
+
+        .weather-details {
+            position: absolute;
+            bottom: 40px;
+            left: 0;
+            width: 100%;
+            padding: 0 20px;
+            display: flex;
+        }
+
+        .weather-details .humidity,
+        .weather-details .wind {
+            display: flex;
+            align-items: center;
+            width: 50%;
+            /* بعد transition */
+            transform: translateY(-100%);
+        }
+
+        .weather-details.active .humidity,
+        .weather-details.active .wind {
+            transform: translateY(0%);
+            transition: transform 1s ease;
+            transition-delay: 1.2s;
+        }
+
+        .weather-details .humidity {
+            padding-left: 20px;
+            justify-content: flex-start;
+        }
+
+        .weather-details .wind {
+            padding-right: 20px;
+            justify-content: flex-end;
+        }
+
+        .weather-details i {
+            font-size: 56px;
+            margin-right: 10px;
+        }
+
+        .weather-details span {
+            display: inline-block;
+            font-size: 22px;
+            font-weight: 500;
+        }
+
+        .weather-details p {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .not-found p {
+            font-size: 22px;
+            font-weight: 500;
+            margin-top: 12px;
+        }
+
+        .not-found {
+            position: absolute;
+            top: 0;
+            left: 0;
+            text-align: center;
+            margin-top: 110px;
+        }
+
+        .not-found img {
+            width: 65%;
+        }
+
+        .mainweaterboxasd {
+            margin-top: 30px;
+        }
+
+        .anotherbox {
+            border: solid red 1px;
+            min-height: 100px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .forcontent {
+            display: flex;
+        }
+    </style>
+</head>
+<!-- °C -->
+
+<body>
+    <div class="container">
+        <div class="search-box">
+            <i class="bi bi-geo-alt-fill"></i>
+            <input type="text" id="textbox" placeholder="Enter your location">
+            <button class="bi bi-search"></button>
+        </div>
+
+        <div id="weaterbox">
+            <!-- <div class="anotherbox">
+                <div class="forimg">
+                    <img src="https://openweathermap.org/img/wn/04d@2x.png" alt="">
+                </div>
+                <div class="forcontent">
+                    <h2>34</h2>
+                    <h2>clear</h2>
+                </div>
+            </div> -->
+        </div>
+
+
+
+    </div>
+    <script src="vendor/js/main.js"></script>
+    <script>
+        var weaterbox = document.querySelector('#weaterbox')
+        // console.log(weaterbox)
+        var inputboxvalue = document.querySelector('#textbox')
+        inputboxvalue.addEventListener(
+            'keyup',
+            async function (event) {
+                // console.log(event.key)
+                if (event.key == "Enter") {
+                    // console.log(event.target.value)
+                    var cityname = event.target.value;
+                    if (cityname != '') {
+                        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityname}&appid=21805bff7224936fa25d6cec016a0a4b&units=metric`)
+                        // console.log(response)
+                        const data = await response.json()
+                        // console.log(data)
+                        if (data.cod == 404) {
+                            weaterbox.innerHTML = '<h1 class="mainweaterboxasd"> Enter correct city bro... </h1>'
+                        } else {
+                            // console.log(`temp of ${cityname} is ${data.main.temp}`)
+                            weaterbox.innerHTML = ` <div class="anotherbox">
+                                <div class="forimg">
+                                    <img src="https://openweathermap.org/img/wn/${data.weather.icon}@2x.png" alt="">
+                                </div>
+                                <div class="forcontent">
+                                    <h2>${data.main.temp}</h2>
+                                    <h2>${data.weather[0].main}</h2>
+                                </div>
+                            </div>`
+                        }
+
+                    }
+                }
+
+            }
+        )
+    </script>
+</body>
+
+</html>
